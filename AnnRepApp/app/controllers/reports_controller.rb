@@ -5,13 +5,13 @@ class ReportsController < ApplicationController
   # GET /reports.json
   def index
     @user = current_user
-    @reports = Report.all
+    @reports = Report.where(:user_id => @user.id)
   end
 
   # GET /reports/1
   # GET /reports/1.json
   def show
-
+    @user = current_user
   end
 
   # GET /reports/new
@@ -62,7 +62,7 @@ class ReportsController < ApplicationController
   def destroy
     @report.destroy
     respond_to do |format|
-      format.html { redirect_to reports_url, notice: 'Report was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'Report was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
