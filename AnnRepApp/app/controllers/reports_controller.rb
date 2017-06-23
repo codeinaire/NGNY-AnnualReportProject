@@ -14,7 +14,14 @@ class ReportsController < ApplicationController
 
   # GET /reports/new
   def new
+    puts "current user"
+    puts current_user.inspect
     @report = Report.new
+    puts "report"
+    puts @report.inspect
+    @report.user_id = current_user.id
+    puts "report with user id"
+    puts @report.inspect
   end
 
   # GET /reports/1/edit
