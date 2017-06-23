@@ -2,7 +2,8 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  root to: "reports#index"
+  root 'reports#index'
+
   resources :users do
     resources :reports do
       resources :parts, :sections
