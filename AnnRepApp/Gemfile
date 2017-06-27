@@ -34,6 +34,9 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+# React on Rails for frontend
+gem "react_on_rails", "8.0.0"
+# Devise for user login
 gem 'devise'
 
 group :development, :test do
