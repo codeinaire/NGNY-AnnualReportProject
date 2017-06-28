@@ -25,6 +25,8 @@ class PartsController < ApplicationController
   # POST /parts.json
   def create
     @part = Part.new(part_params)
+    @report = Report.find(params[:id])
+    @part.report_id = @report.id
 
     respond_to do |format|
       if @part.save
