@@ -12,19 +12,18 @@ export default class Menu extends React.Component {
      super(props);
      this.state = {
        user: this.props.user,
-       reports: [],
        report: this.props.report,
-       parts: this.props.parts
+       parts: [],
      }
    }
 
    componentDidMount() {
-  this.getReports();
-}
+     this.getParts();
+   }
 
-   getReports() {
-  $.getJSON(`/users/${this.state.user.id}/reports.json`, (response) => { this.setState({ reports: response }) });
-}
+   getParts() {
+     $.getJSON(`/users/${this.state.user.id}/reports/${this.state.report.id}/parts.json`, (response) => { this.setState({ parts: response }) });
+   }
 
   render() {
     return (
@@ -34,9 +33,10 @@ export default class Menu extends React.Component {
         <div key={i}>
           <Part part={part} />
         </div>)}
-        <NewPart user={this.state.user} report={this.state.report} />
+        <NewPart user={this.state.user}
+                 report={this.state.report}
+                 getParts={() => this.getParts()}/>
       </div>
-
     )
   }
 }

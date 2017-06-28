@@ -26,6 +26,7 @@ export default class NewPart extends React.Component {
       data: { part: { title: title, report_id: this.state.report.id } },
       success: (response) => {
         console.log('Report saved', response);
+        this.props.getParts();
       }
     });
   }
