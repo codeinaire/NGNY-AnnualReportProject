@@ -7,9 +7,19 @@ export default class Part extends React.Component {
    * @param _railsContext - Comes from React on Rails
    */
 
+   partClick() {
+     this.props.handleDelete();
+     this.props.getParts();
+   }
+
   render() {
     return (
-      <h3>{this.props.part.title}</h3>
+      <div>
+        <h4>{this.props.part.title}</h4>
+        <button onClick={() => this.partClick()}>
+         Delete
+       </button>
+      </div>
     )
   }
 }

@@ -25,13 +25,26 @@ export default class Menu extends React.Component {
      $.getJSON(`/users/${this.state.user.id}/reports/${this.state.report.id}/parts.json`, (response) => { this.setState({ parts: response }) });
    }
 
+   handleDelete(part){
+     $.ajax({
+     url: `/users/${this.state.user.id}/reports/${this.state.report.id}/parts/${part}`,
+     type: 'DELETE',
+     success(response) {
+       console.log('successfully removed part', this);
+     }
+     });
+  }
+
   render() {
     return (
       <div>
         <h1>Menu</h1>
         {this.state.parts.map((part, i) =>
         <div key={i}>
-          <Part part={part} />
+          <Part part={part}
+                handleDelete={() => this.handleDelete(part.id)}
+                getParts={() => this.getParts()}/>
+          {/* <button onClick={() => this.handleDelete(part.id)}>Delete</button> */}
         </div>)}
         <NewPart user={this.state.user}
                  report={this.state.report}
