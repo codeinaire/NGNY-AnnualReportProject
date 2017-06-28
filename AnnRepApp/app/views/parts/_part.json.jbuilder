@@ -1,2 +1,2 @@
 json.extract! part, :id, :title, :report_id, :created_at, :updated_at
-json.url part_url(part, format: :json)
+json.url user_report_part_url(part, current_user, report, format: :json)

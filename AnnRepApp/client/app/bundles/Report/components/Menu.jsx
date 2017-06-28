@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Part from '../components/Part';
+import NewPart from '../components/NewPart';
 
 export default class Menu extends React.Component {
    /**
@@ -17,9 +18,9 @@ export default class Menu extends React.Component {
      }
    }
 
-//    componentDidMount() {
-//   this.getReports();
-// }
+   componentDidMount() {
+  this.getReports();
+}
 
    getReports() {
   $.getJSON(`/users/${this.state.user.id}/reports.json`, (response) => { this.setState({ reports: response }) });
@@ -33,6 +34,7 @@ export default class Menu extends React.Component {
         <div key={i}>
           <Part part={part} />
         </div>)}
+        <NewPart user={this.state.user} report={this.state.report} />
       </div>
 
     )
