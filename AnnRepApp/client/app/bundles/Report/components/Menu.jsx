@@ -14,6 +14,7 @@ export default class Menu extends React.Component {
        user: this.props.user,
        report: this.props.report,
        parts: [],
+       data: null
      }
    }
 
@@ -25,30 +26,42 @@ export default class Menu extends React.Component {
      $.getJSON(`/users/${this.state.user.id}/reports/${this.state.report.id}/parts.json`, (response) => { this.setState({ parts: response }) });
    }
 
-   handleDelete(part){
-     $.ajax({
-     url: `/users/${this.state.user.id}/reports/${this.state.report.id}/parts/${part}`,
-     type: 'DELETE',
-     success(response) {
-       console.log('successfully removed part', this);
-     }
+   sortParts() {
+     this.state.parts.sort(function(a, b) {
+       return a.id - b.id;
      });
-  }
+   }
+
+  handleUpdate(part, user, report) {
+    console.log(part);
+    $.ajax({
+      url: `/users/${user.id}/reports/${report.id}/parts/${part.id}`,
+      type: 'PUT',
+      data: { part: part },
+      success: () => {
+        this.getParts();
+      }
+    });
+  };
 
   render() {
+    this.sortParts()
     return (
       <div>
         <h1>Menu</h1>
         {this.state.parts.map((part, i) =>
         <div key={i}>
           <Part part={part}
-                handleDelete={() => this.handleDelete(part.id)}
+                user={this.state.user}
+                report={this.state.report}
+                handleUpdate={this.handleUpdate}
                 getParts={() => this.getParts()}/>
-          {/* <button onClick={() => this.handleDelete(part.id)}>Delete</button> */}
         </div>)}
-        <NewPart user={this.state.user}
-                 report={this.state.report}
-                 getParts={() => this.getParts()}/>
+        <div className="newPartDiv">
+          <NewPart user={this.state.user}
+                   report={this.state.report}
+                   getParts={() => this.getParts()}/>
+        </div>
       </div>
     )
   }

@@ -1,5 +1,10 @@
 <p id="notice"><%= notice %></p>
-<%= react_component("Menu", props:@menuProps) %>
+<div class="menu">
+  <%= react_component("Menu", props:@menuProps) %>
+</div>
+<div class="display">
+  <%= react_component("Display", props:@menuProps) %>
+</div>
 
 <!-- <p>
   <strong>Title:</strong>
