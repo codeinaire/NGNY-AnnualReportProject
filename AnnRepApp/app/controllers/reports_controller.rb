@@ -1,11 +1,13 @@
 class ReportsController < ApplicationController
   before_action :set_report, only: [:show, :edit, :update, :destroy]
 
+
   # GET /reports
   # GET /reports.json
   def index
     @user = current_user
     @reports = Report.where(:user_id => @user.id)
+    @hello_world_props = { name: "Stranger" }
   end
 
   # GET /reports/1
@@ -16,13 +18,15 @@ class ReportsController < ApplicationController
 
   # GET /reports/new
   def new
-    @user = current_user
+    @hello_world_props = { name: "Yes, working" }
+    puts "passing through reports controller"
+    # @user = current_user
     @report = Report.new
-    puts "report"
-    puts @report.inspect
-    @report.user_id = current_user.id
-    puts "report with user id"
-    puts @report.inspect
+    # puts "report"
+    # puts @report.inspect
+    # @report.user_id = current_user.id
+    # puts "report with user id"
+    # puts @report.inspect
   end
 
   # GET /reports/1/edit
