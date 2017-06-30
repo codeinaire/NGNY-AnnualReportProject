@@ -24,7 +24,9 @@ const Footer = styled.footer.attrs({
 
 export default class ReportIndex extends React.Component {
   static propTypes = {
-    name: PropTypes.string.isRequired, // this is passed from the Rails view
+    parts: PropTypes.array, // this is passed from the Rails view
+    report: PropTypes.object,
+    currentUser: PropTypes.number,
   };
 
   constructor(props, _railsContext) {
@@ -32,13 +34,14 @@ export default class ReportIndex extends React.Component {
 
     // How to set initial state in ES6 class syntax
     // https://facebook.github.io/react/docs/reusable-components.html#es6-classes
+    console.log("this is props", this.props.report);
     this.state = {
       parts: [],
-      name: this.props.name,
-      report: {},
-      currentUser: this.props.currentUser,
+      report: this.props.report,
+      currentUser: this.props.report.user_id,
       displayHeadColorPicker: false,
       displayFootColorPicker: false,
+      editable: false,
     };
 
     this.updateHeadColour = this.updateHeadColour.bind(this);
@@ -85,10 +88,10 @@ export default class ReportIndex extends React.Component {
   };
 
   // api to rails
-  // componentDidMount() {
-  //   this.getReports();
-  //  CREATE DEFAULT STATE WHEN COMPONENT MOUNTS
-  // }
+  componentDidMount() {
+    this.getReports();
+  // NOTE  CREATE DEFAULT STATE WHEN COMPONENT MOUNTS
+  }
 
   // NOTE - when a user creates a new report are we going to get the styling from
   // the database or are we going to have the state determine the default styling.
@@ -125,7 +128,19 @@ export default class ReportIndex extends React.Component {
     this.setState({ name });
   };
 
+  handleEdit() {
+    this.setState({ editable: !this.state.editable })
+  }
+
   render() {
+    var title = this.state.editable ? <input type='text'
+                                            defaultValue={this.props.report.title}
+                                            onChange={ (e) => this.setState({ report: {
+                                                                              title: e.target.value }
+                                                                            }
+                                              ) }/>
+                                    : <p>{this.state.report.title}</p>
+
     const popover = {
       position: 'absolute',
       zIndex: '2',
@@ -137,19 +152,36 @@ export default class ReportIndex extends React.Component {
       bottom: '0px',
       left: '0px',
     }
+    const body = {
+      width: '100%',
+      height: '500px',
+      backgroundColor: `black`,
+    }
 
     return (
       <div>
-        <Header backgroundcolor={this.state.report.header_colour}>This is a header
+        <Header backgroundcolor={this.state.report.header_colour}>
+
+          <h1>{title}</h1>
+          <button onClick={() => this.handleEdit()}>{this.state.editable ? 'Submit' : 'Edit' }</button>
+
           <button onClick={ () => this.handleClick("head") }>Pick Color</button>
           { this.state.displayHeadColorPicker ? <div style={ popover }>
             <div style={ cover } onClick={ () => this.handleClose("head") }/>
             <ChromePicker color={this.state.report.header_colour} onChangeComplete={ this.updateHeadColour } />
           </div> : null }
         </Header>
-
-
-
+        <br />
+        <br />
+        <hr />
+        <br />
+        <div style={ body }>
+          <p>This is the body</p>
+        </div>
+        <br />
+        <br />
+        <hr />
+        <br />
         <Footer backgroundcolor={this.state.report.footer_colour}>This is a footer
           <button onClick={() => this.handleClick("foot") }>Pick Color</button>
           { this.state.displayFootColorPicker ? <div style={ popover }>
@@ -157,6 +189,10 @@ export default class ReportIndex extends React.Component {
             <ChromePicker color={this.state.report.footer_colour} onChangeComplete={ this.updateFootColour } />
           </div> : null }
         </Footer>
+        <br />
+        <br />
+        <hr />
+        <br />
         <button type="submit" onClick={this.showState}>STATE ME!!</button>
         <button type="submit" onClick={this.handleCreateNew}>Click to Save Changes</button>
       </div>

@@ -20,10 +20,22 @@ class ReportsController < ApplicationController
 
   # GET /reports/new
   def new
+    user = current_user.id
     @report = Report.new
     puts "******* new report"
     puts @report.inspect
-    @user_props = { currentUser: current_user }
+    date = Time.now.strftime("%d/%m/%Y %H:%M")
+    @reportProps = { report: {
+                        id: nil,
+                        title: "This is default title",
+                        header_colour: "blue",
+                        footer_colour: "red",
+                        footer_date: date,
+                        footer_company: "This is default company",
+                        user_id: user }
+          }
+
+
   end
 
   # GET /reports/1/edit
