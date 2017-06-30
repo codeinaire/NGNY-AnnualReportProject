@@ -13,8 +13,19 @@ export default class Placeholder extends React.Component {
     this.state = {
       user: this.props.user,
       report: this.props.report,
-      parts: this.props.parts
-    }
+      parts: this.props.parts,
+      section: ''
+    };
+    this.indexSectionShow = this.indexSectionShow.bind(this);
+  }
+
+  indexSectionShow(section) {
+    this.updateSection(section);
+  };
+
+  updateSection(section) {
+    this.setState({ section: section })
+    console.log(section)
   }
 
   render() {
@@ -23,12 +34,14 @@ export default class Placeholder extends React.Component {
         <div className="menu">
           <Menu user={this.props.user}
                 report={this.props.report}
-                parts={this.props.parts}/>
+                parts={this.props.parts}
+                indexSectionShow={this.indexSectionShow}/>
         </div>
         <div className="display">
           <Display user={this.props.user}
                   report={this.props.report}
-                  parts={this.props.parts}/>
+                  parts={this.props.parts}
+                  section={this.state.section}/>
         </div>
       </div>
     )

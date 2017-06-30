@@ -14,7 +14,8 @@ export default class Menu extends React.Component {
        user: this.props.user,
        report: this.props.report,
        parts: []
-     }
+     };
+     this.passSectionShow = this.passSectionShow.bind(this);
    }
 
    componentDidMount() {
@@ -43,7 +44,7 @@ export default class Menu extends React.Component {
     });
   };
 
-  menuSectionShow(section) {
+  passSectionShow(section) {
     this.props.indexSectionShow(section);
   }
 
@@ -59,7 +60,7 @@ export default class Menu extends React.Component {
                 report={this.state.report}
                 handleUpdate={this.handleUpdate}
                 getParts={() => this.getParts()}
-                menuSectionShow={this.menuSectionShow}/>
+                passSectionShow={this.passSectionShow}/>
         </div>)}
         <div className="newPartDiv">
           <NewPart user={this.state.user}

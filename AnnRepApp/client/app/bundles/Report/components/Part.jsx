@@ -62,7 +62,7 @@ export default class Part extends React.Component {
   };
 
   sectionShow(section) {
-    this.props.menuSectionShow(section);
+    this.props.passSectionShow(section);
   }
 
   sortSections() {
