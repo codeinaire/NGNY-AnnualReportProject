@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Section from '../components/Section';
+import NewSection from '../components/NewSection';
 
 export default class Part extends React.Component {
   /**
@@ -13,13 +15,14 @@ export default class Part extends React.Component {
       editable: false,
       title: '',
       user: this.props.user,
-      report: this.props.report
+      report: this.props.report,
+      sections: []
     }
   };
-   //
-  //  partClick() {
-  //    this.props.handleDelete();
-  //  }
+
+  componentDidMount() {
+    this.getSections();
+  }
 
   handleEdit() {
    if (this.state.editable) {
@@ -42,16 +45,58 @@ export default class Part extends React.Component {
     });
   }
 
+  getSections() {
+    $.getJSON(`/users/${this.state.user.id}/reports/${this.state.report.id}/sections.json`, (response) => { this.setState({ sections: response }) });
+  }
+
+  sectionUpdate(section, user, report) {
+    console.log(section);
+    $.ajax({
+      url: `/users/${user.id}/reports/${report.id}/sections/${section.id}`,
+      type: 'PUT',
+      data: { section: section },
+      success: () => {
+        this.getSections();
+      }
+    });
+  };
+
+  sortSections() {
+    this.state.sections.sort(function(a, b) {
+      return a.id - b.id;
+    });
+  }
+
   render() {
-    let partTitle = this.state.editable ? <input type='text'
+    this.sortSections()
+    let partTitle = this.state.editable ? <div><input type='text'
                                                  defaultValue={this.props.part.title}
-                                                 onChange={ (e) => this.setState({ title: e.target.value }) }/>
-                                        : <p>{this.props.part.title} {this.props.part.id}</p>
+                                                 onChange={ (e) => this.setState({ title: e.target.value }) }/> <p className="editButton" onClick={() => this.handleEdit()}>Save</p></div>
+                                        : <p>{this.props.part.title} <span className="deleteButton" onClick={() => this.handleDelete()}>X</span> <span className="editButton" onClick={() => this.handleEdit()}>-></span></p>
     return (
       <div>
         <h4>{partTitle}</h4>
-        <button onClick={() => this.handleDelete()}>Delete</button>
-        <button onClick={() => this.handleEdit()}>{this.state.editable ? 'Submit' : 'Edit' }</button>
+        {/* <button onClick={() => this.handleDelete()}>Delete</button> */}
+        {/* <button onClick={() => this.handleEdit()}>{this.state.editable ? 'Submit' : 'Edit' }</button> */}
+        <div className="menuSection">
+          <ul>
+            {this.state.sections.map((section, i) =>
+              section.part_id == this.props.part.id &&
+            <li key={i}>
+              <Section section={section}
+                       part={this.props.part}
+                       user={this.state.user}
+                       report={this.state.report}
+                       getSections={() => this.getSections()}
+                       sectionUpdate={this.sectionUpdate}/>
+            </li>)}
+          </ul>
+        </div>
+           <NewSection part={this.props.part}
+                       user={this.state.user}
+                       report={this.state.report}
+                       getSections={() => this.getSections()} />
+        <hr />
       </div>
     )
   }

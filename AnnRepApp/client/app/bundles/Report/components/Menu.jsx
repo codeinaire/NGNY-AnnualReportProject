@@ -13,8 +13,7 @@ export default class Menu extends React.Component {
      this.state = {
        user: this.props.user,
        report: this.props.report,
-       parts: [],
-       data: null
+       parts: []
      }
    }
 

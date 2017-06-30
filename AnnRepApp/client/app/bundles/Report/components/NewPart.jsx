@@ -17,7 +17,7 @@ export default class NewPart extends React.Component {
     }
   };
 
-  handleClick() {
+  handleCreate() {
     let title = this.state.title;
 
     $.ajax({
@@ -36,7 +36,7 @@ export default class NewPart extends React.Component {
       <div>
         <h5>Create New Part</h5>
         <input onChange={ (e) => this.setState({ title: e.target.value }) } placeholder='Enter Title' />
-        <button onClick={() => this.handleClick()}>Create</button>
+        <button onClick={() => this.handleCreate()}>Create</button>
       </div>
     )
   }

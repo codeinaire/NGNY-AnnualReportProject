@@ -10,11 +10,17 @@ import NewPart from '../components/NewPart';
 
 import Display from '../components/Display';
 
+import Section from '../components/Section';
+
+import NewSection from '../components/NewSection';
+
 // This is how react_on_rails can see the HelloWorld in the browser.
 ReactOnRails.register({
   HelloWorld,
   Menu,
   Part,
   NewPart,
-  Display
+  Display,
+  Section,
+  NewSection
 });

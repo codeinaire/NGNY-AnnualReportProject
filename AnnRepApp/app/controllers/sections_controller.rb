@@ -5,6 +5,7 @@ class SectionsController < ApplicationController
   # GET /sections.json
   def index
     @sections = Section.all
+    @report = Report.find(params[:report_id])
   end
 
   # GET /sections/1
@@ -28,7 +29,7 @@ class SectionsController < ApplicationController
 
     respond_to do |format|
       if @section.save
-        format.html { redirect_to @section, notice: 'Section was successfully created.' }
+        format.html
         format.json { render :show, status: :created, location: @section }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class SectionsController < ApplicationController
   def update
     respond_to do |format|
       if @section.update(section_params)
-        format.html { redirect_to @section, notice: 'Section was successfully updated.' }
+        format.html
         format.json { render :show, status: :ok, location: @section }
       else
         format.html { render :edit }
@@ -56,7 +57,7 @@ class SectionsController < ApplicationController
   def destroy
     @section.destroy
     respond_to do |format|
-      format.html { redirect_to sections_url, notice: 'Section was successfully destroyed.' }
+      format.html
       format.json { head :no_content }
     end
   end
