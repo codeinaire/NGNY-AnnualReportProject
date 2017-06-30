@@ -44,7 +44,7 @@ export default class Section extends React.Component {
     let sectionTitle = this.state.editable ? <input type='text'
                                                  defaultValue={this.props.section.title}
                                                  onChange={ (e) => this.setState({ title: e.target.value }) }/>
-                                        : this.props.section.title
+                                            : this.props.section.title
     return (
       <div>
         {sectionTitle}

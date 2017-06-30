@@ -43,6 +43,10 @@ export default class Menu extends React.Component {
     });
   };
 
+  menuSectionShow(section) {
+    this.props.indexSectionShow(section);
+  }
+
   render() {
     this.sortParts()
     return (
@@ -54,7 +58,8 @@ export default class Menu extends React.Component {
                 user={this.state.user}
                 report={this.state.report}
                 handleUpdate={this.handleUpdate}
-                getParts={() => this.getParts()}/>
+                getParts={() => this.getParts()}
+                menuSectionShow={this.menuSectionShow}/>
         </div>)}
         <div className="newPartDiv">
           <NewPart user={this.state.user}

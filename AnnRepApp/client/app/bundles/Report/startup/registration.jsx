@@ -14,6 +14,8 @@ import Section from '../components/Section';
 
 import NewSection from '../components/NewSection';
 
+import Placeholder from '../components/Placeholder';
+
 // This is how react_on_rails can see the HelloWorld in the browser.
 ReactOnRails.register({
   HelloWorld,
@@ -22,5 +24,6 @@ ReactOnRails.register({
   NewPart,
   Display,
   Section,
-  NewSection
+  NewSection,
+  Placeholder
 });

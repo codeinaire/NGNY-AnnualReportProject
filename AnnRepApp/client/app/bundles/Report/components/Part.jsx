@@ -61,6 +61,10 @@ export default class Part extends React.Component {
     });
   };
 
+  sectionShow(section) {
+    this.props.menuSectionShow(section);
+  }
+
   sortSections() {
     this.state.sections.sort(function(a, b) {
       return a.id - b.id;
@@ -82,7 +86,7 @@ export default class Part extends React.Component {
           <ul>
             {this.state.sections.map((section, i) =>
               section.part_id == this.props.part.id &&
-            <li key={i}>
+            <li key={i} onClick={() => this.sectionShow(section)}>
               <Section section={section}
                        part={this.props.part}
                        user={this.state.user}
