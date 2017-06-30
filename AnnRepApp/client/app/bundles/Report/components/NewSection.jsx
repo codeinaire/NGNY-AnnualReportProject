@@ -7,19 +7,19 @@ export default class NewSection extends React.Component {
    * @param _railsContext - Comes from React on Rails
    */
 
-   constructor(props, _railsContext) {
-     super(props);
-     this.state = {
-       editable: false,
-       title: '',
-       user: this.props.user,
-       report: this.props.report,
-       part: this.props.part
-     }
-   };
+  constructor(props, _railsContext) {
+    super(props);
+    this.state = {
+      editable: false,
+      title: '',
+      user: this.props.user,
+      report: this.props.report,
+      part: this.props.part
+    }
+  };
 
-   handleCreate() {
-     let title = this.state.title;
+  handleCreate() {
+    let title = this.state.title;
 
      $.ajax({
        url: `/users/${this.state.user.id}/reports/${this.state.report.id}/sections`,
@@ -30,7 +30,7 @@ export default class NewSection extends React.Component {
          this.props.getSections();
        }
      });
-   }
+  }
 
   render() {
     return (
