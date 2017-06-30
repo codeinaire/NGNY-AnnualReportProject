@@ -1,20 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import { BlockPicker,
-         ChromePicker,
-         CirclePicker,
-         CompactPicker,
-         GithubPicker,
-         HuePicker,
-         MaterialPicker,
-         PhotoshopPicker,
-         SketchPicker,
-         SliderPicker,
-         SwatchesPicker,
-         TwitterPicker, } from 'react-color';
+import { ChromePicker } from 'react-color';
 
 
+// styled-components: used to change the styling of the page, user input directly changes this.
 const Header = styled.header.attrs({
   backgroundcolor: props => props.backgroundcolor || `palevioletred`,
 })`
@@ -23,8 +13,10 @@ const Header = styled.header.attrs({
   height: 100px;
 `;
 
-const Footer = styled.footer`
-  background-color: palevioletred;
+const Footer = styled.footer.attrs({
+  backgroundcolor: props => props.backgroundcolor || `red`,
+})`
+  background-color: ${props => props.backgroundcolor};
   width: 100%;
   height: 100px;
 `;
@@ -44,16 +36,22 @@ export default class ReportIndex extends React.Component {
       parts: [],
       name: this.props.name,
       report: {},
+      currentUser: this.props.currentUser,
       displayHeadColorPicker: false,
       displayFootColorPicker: false,
     };
 
     this.updateHeadColour = this.updateHeadColour.bind(this);
     this.updateFootColour = this.updateFootColour.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleCreateNew = this.handleCreateNew.bind(this);
+    this.showState = this.showState.bind(this);
   };
 
-  // colour slider
+  showState = () => {
+    console.log("This is report", this.state.report);
+  };
+
+  // colour picker open and close
   handleClick = (arg) => {
     console.log("this is arg in handleclick", arg);
     if ( arg == "head") {
@@ -72,71 +70,59 @@ export default class ReportIndex extends React.Component {
     };
   };
 
-  // api
-  componentDidMount() {
-    this.getReports();
-  }
+  // update colour of header and footer
+  // NOTE fix conflict between footer changing header colour
+  updateHeadColour(color, event) {
+    this.setState({
+      report: {
+        header_colour: color.hex
+      }
+    });
+  };
 
+  updateFootColour(foot, event) {
+    this.setState({ report: { footer_colour: foot.hex}});
+  };
+
+  // api to rails
+  // componentDidMount() {
+  //   this.getReports();
+  //  CREATE DEFAULT STATE WHEN COMPONENT MOUNTS
+  // }
+
+  // NOTE - when a user creates a new report are we going to get the styling from
+  // the database or are we going to have the state determine the default styling.
   getReports() {
-    $.getJSON('/users/1/reports/1.json', (response) => {
+    $.getJSON(`/users/${this.state.currentUser}/reports/1.json`, (response) => {
       console.log("this is response", response);
       this.setState({
          report: response
        })
-       console.log("this is an attribute for report", this.state.report.header_colour);
      });
   }
 
-  handleUpdate() {
-
+  handleCreateNew() {
+    console.log("this is report in new", this.state.report);
+    let report = this.state;
     $.ajax({
-      url: `/users/1/reports/1`,
-      type: 'PUT',
-      data: { report: this.state.report },
+      url: `/users/${this.state.currentUser}/reports`,
+      type: 'POST',
+      data: { report: { id: null,
+                        title: report.title,
+                        header_colour: report.header_colour,
+                        footer_colour: report.footer_colour,
+                        footer_date: report.footer_date,
+                        footer_company: report.footer_date,
+                        user_id: report.user_id }
+            },
       success: () => {
         console.log('you did it');
-        // this.updateReports(report);
-        // callback to swap objects
       }
     });
  };
 
   updateName = (name) => {
     this.setState({ name });
-  };
-
-  // update report object from form input
-  // updateObject(event) {
-  //   event.preventDefault();
-  //   console.log('Just checking it workin! 🎣');
-  //   console.log(this.backgroundcolor.value);
-  //   console.log(this.backgroundcolor);
-  //   console.log("this is event", event);
-  //   this.setState({ report: { header_colour: this.backgroundcolor.value }});
-  //   this.resetForm.reset();
-  // };
-
-  updateHeadColour(color, event) {
-    // event.preventDefault();
-    console.log('In head 🎣');
-    console.log("event", event);
-    console.log("event.hex", event.hex);
-    // let colour = event.hex;
-    // console.log(this.backgroundcolor.value);
-    this.setState({ report: { header_colour: color.hex}});
-    // this.resetForm.reset();
-  };
-
-  updateFootColour(foot, event) {
-    // event.preventDefault();
-    console.log('IN foot 🎣');
-    console.log("event in foot", event);
-    console.log("event.hex in foot", event.hex);
-    console.log("color", foot);
-    // let colour = event.hex;
-    // console.log(this.backgroundcolor.value);
-    this.setState({ report: { footer_colour: foot.hex}});
-    // this.resetForm.reset();
   };
 
   render() {
@@ -151,6 +137,7 @@ export default class ReportIndex extends React.Component {
       bottom: '0px',
       left: '0px',
     }
+
     return (
       <div>
         <Header backgroundcolor={this.state.report.header_colour}>This is a header
@@ -161,30 +148,8 @@ export default class ReportIndex extends React.Component {
           </div> : null }
         </Header>
 
-        <h3>
-          Hello, {this.state.name}!
-        </h3>
-        <div>
-          <h2>Please Enter a Colour</h2>
-          <form ref={(input) => this.resetForm = input} onSubmit={(e) => this.updateObject(e)}>
-             <input ref={(input) => this.backgroundcolor = input} type="text" placeholder="Enter Colour" />
-             <button type="submit">+ Add Item</button>
-         </form>
-        </div>
-        <hr />
-          {this.state.parts.map((report, i) => <div key={i}><p>{report.title}</p><p>{report.header_colour}</p><p>{report.footer_colour}</p></div>)}
-        <hr />
-        <form >
-          <label htmlFor="name">
-            Say hello to:
-          </label>
-          <input
-            id="name"
-            type="text"
-            value={this.state.name}
-            onChange={(e) => this.updateName(e.target.value)}
-          />
-        </form>
+
+
         <Footer backgroundcolor={this.state.report.footer_colour}>This is a footer
           <button onClick={() => this.handleClick("foot") }>Pick Color</button>
           { this.state.displayFootColorPicker ? <div style={ popover }>
@@ -192,7 +157,8 @@ export default class ReportIndex extends React.Component {
             <ChromePicker color={this.state.report.footer_colour} onChangeComplete={ this.updateFootColour } />
           </div> : null }
         </Footer>
-        <button type="submit" onClick={this.handleUpdate}>Click to Save Changes</button>
+        <button type="submit" onClick={this.showState}>STATE ME!!</button>
+        <button type="submit" onClick={this.handleCreateNew}>Click to Save Changes</button>
       </div>
     );
   }

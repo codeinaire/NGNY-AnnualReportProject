@@ -14,19 +14,16 @@ class ReportsController < ApplicationController
   # GET /reports/1.json
   def show
     @user = current_user
+    puts "report"
+    puts @report.inspect
   end
 
   # GET /reports/new
   def new
-    @hello_world_props = { name: "Yes, working" }
-    puts "passing through reports controller"
-    # @user = current_user
     @report = Report.new
-    # puts "report"
-    # puts @report.inspect
-    # @report.user_id = current_user.id
-    # puts "report with user id"
-    # puts @report.inspect
+    puts "******* new report"
+    puts @report.inspect
+    @user_props = { currentUser: current_user }
   end
 
   # GET /reports/1/edit
@@ -41,8 +38,13 @@ class ReportsController < ApplicationController
     @report = Report.new(report_params)
     @report.user_id = @user.id
 
+    puts "****** report create *****"
+    puts @report.inspect
+
     respond_to do |format|
       if @report.save
+        puts "****** report create in if *****"
+        puts @report.inspect
         format.html { redirect_to root_path, notice: 'Report was successfully created.' }
         format.json { render :show, status: :created, location: @report }
       else
