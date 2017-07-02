@@ -124,20 +124,32 @@ export default class ReportIndex extends React.Component {
     });
  };
 
+
   updateName = (name) => {
     this.setState({ name });
   };
 
+  // text enter buttons
+
   handleEdit() {
     this.setState({ editable: !this.state.editable })
-  }
+  };
+
+  updateText(arg) {
+
+    // if title
+    this.setState({ report: {title: e.target.value }}
+    // if footer company
+
+    // if footer date
+
+
+  };
 
   render() {
     var title = this.state.editable ? <input type='text'
                                             defaultValue={this.props.report.title}
-                                            onChange={ (e) => this.setState({ report: {
-                                                                              title: e.target.value }
-                                                                            }
+                                            onChange={
                                               ) }/>
                                     : <p>{this.state.report.title}</p>
 
@@ -163,7 +175,7 @@ export default class ReportIndex extends React.Component {
         <Header backgroundcolor={this.state.report.header_colour}>
 
           <h1>{title}</h1>
-          <button onClick={() => this.handleEdit()}>{this.state.editable ? 'Submit' : 'Edit' }</button>
+          <button onClick={() => this.updateText()}>{this.state.editable ? 'Submit' : 'Edit' }</button>
 
           <button onClick={ () => this.handleClick("head") }>Pick Color</button>
           { this.state.displayHeadColorPicker ? <div style={ popover }>
