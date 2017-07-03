@@ -25,8 +25,8 @@ ActiveRecord::Schema.define(version: 20170703003533) do
 
   create_table "reports", force: :cascade do |t|
     t.string   "title"
-    t.integer  "header_colour"
-    t.integer  "footer_colour"
+    t.string   "header_colour"
+    t.string   "footer_colour"
     t.string   "footer_date"
     t.string   "footer_company"
     t.datetime "created_at",     null: false

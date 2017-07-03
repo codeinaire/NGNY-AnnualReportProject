@@ -3,6 +3,8 @@ import React from 'react';
 import Menu from '../components/Menu';
 import Display from '../components/Display';
 
+// this will probably be the ReportIndex page
+
 export default class Placeholder extends React.Component {
   /**
    * @param props - Comes from your rails view.
@@ -15,28 +17,36 @@ export default class Placeholder extends React.Component {
       report: this.props.report,
       parts: this.props.parts,
       part: '',
-      section: ''
+      section: '',
+      sections: [],
     };
     this.indexSectionShow = this.indexSectionShow.bind(this);
   }
 
+  getSections = () => {
+    $.getJSON(`/users/${this.state.user.id}/reports/${this.state.report.id}/sections.json`, (response) => { this.setState({ sections: response }) });
+  }
+
   indexSectionShow(section, part) {
-    this.updateSection(section, part);
+    this.setState({ section: section, part: part })
   };
 
-  updateSection(section, part) {
-    this.setState({ section: section, part: part })
-    console.log(section)
-  }
+  showState = () => {
+   console.log("This is state placeholder", this.state);
+  };
 
   render() {
     return (
       <div>
         <div className="menu">
-          <Menu user={this.props.user}
-                report={this.props.report}
-                parts={this.props.parts}
-                indexSectionShow={this.indexSectionShow}/>
+          <Menu
+            user={this.props.user}
+            report={this.props.report}
+            parts={this.props.parts}
+            indexSectionShow={this.indexSectionShow}
+            getSections={this.getSections}
+            sections={this.state.sections}
+          />
         </div>
         <div className="display">
           <Display user={this.props.user}
@@ -44,6 +54,7 @@ export default class Placeholder extends React.Component {
                   part={this.state.part}
                   section={this.state.section}/>
         </div>
+        <button onClick={this.showState}>Click me for state on placeholder</button>
       </div>
     )
   }

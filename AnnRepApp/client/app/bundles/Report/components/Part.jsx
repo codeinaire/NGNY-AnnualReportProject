@@ -21,8 +21,12 @@ export default class Part extends React.Component {
   };
 
   componentDidMount() {
-    this.getSections();
+    this.props.getSections();
   }
+
+  // getSections() {
+  //   $.getJSON(`/users/${this.state.user.id}/reports/${this.state.report.id}/sections.json`, (response) => { this.setState({ sections: response }) });
+  // }
 
   handleEdit() {
     if (this.state.editable) {
@@ -45,10 +49,6 @@ export default class Part extends React.Component {
     });
   }
 
-  getSections() {
-    $.getJSON(`/users/${this.state.user.id}/reports/${this.state.report.id}/sections.json`, (response) => { this.setState({ sections: response }) });
-  }
-
   sectionUpdate(section, user, report) {
     console.log(section);
     $.ajax({
@@ -56,7 +56,7 @@ export default class Part extends React.Component {
       type: 'PUT',
       data: { section: section },
       success: () => {
-        this.getSections();
+        this.props.getSections();
       }
     });
   };
@@ -66,10 +66,14 @@ export default class Part extends React.Component {
   }
 
   sortSections() {
-    this.state.sections.sort(function(a, b) {
+    this.props.sections.sort(function(a, b) {
       return a.id - b.id;
     });
   }
+
+  showState = () => {
+   console.log("This is state in part", this.state);
+  };
 
   render() {
     this.sortSections()
@@ -92,9 +96,10 @@ export default class Part extends React.Component {
         {/* <button onClick={() => this.handleEdit()}>{this.state.editable ? 'Submit' : 'Edit' }</button> */}
         <div className="menuSection">
           <ul>
-            {this.state.sections.map((section, i) =>
+            {this.props.sections.map((section, i) =>
               section.part_id == this.props.part.id &&
               <li key={i} onClick={() => this.sectionShow(section, this.props.part)}>
+                {console.log("this is section", section)}
                 <Section section={section}
                          part={this.props.part}
                          user={this.state.user}
@@ -109,6 +114,7 @@ export default class Part extends React.Component {
                     report={this.state.report}
                     getSections={() => this.getSections()} />
         <hr />
+        <button onClick={this.showState}>Click me for state on Part</button>
       </div>
     )
   }

@@ -48,6 +48,10 @@ export default class Menu extends React.Component {
     this.props.indexSectionShow(section, part);
   }
 
+  showState = () => {
+   console.log("This is state in menu", this.state);
+  };
+
   render() {
     this.sortParts()
     return (
@@ -55,18 +59,23 @@ export default class Menu extends React.Component {
         <h1>Menu</h1>
         {this.state.parts.map((part, i) =>
         <div key={i}>
-          <Part part={part}
-                user={this.state.user}
-                report={this.state.report}
-                handleUpdate={this.handleUpdate}
-                getParts={() => this.getParts()}
-                passSectionShow={this.passSectionShow}/>
+          <Part
+            part={part}
+            user={this.state.user}
+            report={this.state.report}
+            handleUpdate={this.handleUpdate}
+            getParts={() => this.getParts()}
+            passSectionShow={this.passSectionShow}
+            getSections={this.props.getSections}
+            sections={this.props.sections}
+          />
         </div>)}
         <div className="newPartDiv">
           <NewPart user={this.state.user}
                    report={this.state.report}
                    getParts={() => this.getParts()}/>
         </div>
+        <button onClick={this.showState}>Click me for state on menu</button>
       </div>
     )
   }

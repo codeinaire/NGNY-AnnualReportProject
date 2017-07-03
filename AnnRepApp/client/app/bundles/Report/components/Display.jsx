@@ -18,6 +18,7 @@ export default class Display extends React.Component {
   render() {
     return (
       <div>
+        <h1>This is Content Section</h1>
         <h2>{this.props.part.title}</h2>
         <h4>{this.props.section.title}</h4>
         <p>{this.props.section.content}</p>
