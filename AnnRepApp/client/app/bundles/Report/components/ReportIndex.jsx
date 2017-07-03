@@ -34,14 +34,21 @@ export default class ReportIndex extends React.Component {
 
     // How to set initial state in ES6 class syntax
     // https://facebook.github.io/react/docs/reusable-components.html#es6-classes
-    console.log("this is props", this.props.report);
+    const report = this.props.report;
     this.state = {
       parts: [],
-      report: this.props.report,
+      title: report.title,
+      header_colour: report.header_colour,
+      footer_colour: report.footer_colour,
+      footer_date: report.footer_date,
+      footer_company: report.footer_company,
+      user_id: report.user_id,
       currentUser: this.props.report.user_id,
       displayHeadColorPicker: false,
       displayFootColorPicker: false,
-      editable: false,
+      headTitleEditable: false,
+      footCompanyEditable: false,
+      footDateEditable: false,
     };
 
     this.updateHeadColour = this.updateHeadColour.bind(this);
@@ -51,7 +58,7 @@ export default class ReportIndex extends React.Component {
   };
 
   showState = () => {
-    console.log("This is report", this.state.report);
+    console.log("This is report", this.state);
   };
 
   // colour picker open and close
@@ -76,15 +83,11 @@ export default class ReportIndex extends React.Component {
   // update colour of header and footer
   // NOTE fix conflict between footer changing header colour
   updateHeadColour(color, event) {
-    this.setState({
-      report: {
-        header_colour: color.hex
-      }
-    });
+    this.setState({ header_colour: color.hex });
   };
 
   updateFootColour(foot, event) {
-    this.setState({ report: { footer_colour: foot.hex}});
+    this.setState({ footer_colour: foot.hex });
   };
 
   // api to rails
@@ -106,20 +109,20 @@ export default class ReportIndex extends React.Component {
 
   handleCreateNew() {
     console.log("this is report in new", this.state.report);
-    let report = this.state;
+    let state = this.state;
     $.ajax({
       url: `/users/${this.state.currentUser}/reports`,
       type: 'POST',
       data: { report: { id: null,
-                        title: report.title,
-                        header_colour: report.header_colour,
-                        footer_colour: report.footer_colour,
-                        footer_date: report.footer_date,
-                        footer_company: report.footer_date,
-                        user_id: report.user_id }
+                        title: state.title,
+                        header_colour: state.header_colour,
+                        footer_colour: state.footer_colour,
+                        footer_date: state.footer_date,
+                        footer_company: state.footer_date,
+                        user_id: state.user_id }
             },
       success: () => {
-        console.log('you did it');
+        console.log('You did it');
       }
     });
  };
@@ -130,28 +133,57 @@ export default class ReportIndex extends React.Component {
   };
 
   // text enter buttons
-
-  handleEdit() {
-    this.setState({ editable: !this.state.editable })
+  updateText(arg, e) {
+    console.log("this is arg", arg);
+    console.log("this is e", e);
+    if ( arg === "headTitle" ) {
+      this.setState({ report: { title: e.target.value }});
+    } else if (arg === "footCompany") {
+      this.setState({ report: { footer_company: e.target.value }});
+    } else if (arg === "footDate") {
+      this.setState({ report: { footer_date: e.target.value }});
+    } else {
+      console.log("What's going on??");
+    }
   };
 
-  updateText(arg) {
+  handleChange = (e) => {
+    console.log("This is e", e);
+    console.log("This is e.target", e.target);
+    console.log("This is e.target.value", e.target.value);
+    console.log("This is attribute", this.state.report.title);
+  }
 
-    // if title
-    this.setState({ report: {title: e.target.value }}
-    // if footer company
-
-    // if footer date
-
-
+  handleEdit = (whatEdit) => {
+    console.log("whatEdit", whatEdit);
+    if ( whatEdit === "headTitle" ) {
+      this.setState({headTitleEditable: !this.state.headTitleEditable})
+    } else if (whatEdit === "footCompany") {
+      this.setState({footCompanyEditable: !this.state.footCompanyEditable})
+    } else if (whatEdit === "footDate") {
+      this.setState({footDateEditable: !this.state.footDateEditable})
+    } else {
+      console.log("What's going on??");
+    }
   };
+
+
 
   render() {
-    var title = this.state.editable ? <input type='text'
-                                            defaultValue={this.props.report.title}
-                                            onChange={
-                                              ) }/>
-                                    : <p>{this.state.report.title}</p>
+    var headTitle = this.state.headTitleEditable ? <input type='text'
+                                            defaultValue={this.state.title}
+                                            onChange={(e) => this.handleChange(e)}/>
+                                    : <p>{this.state.title}</p>
+
+    var footCompany = this.state.footCompanyEditable ? <input type='text'
+                                            defaultValue={this.state.footer_company}
+                                            onChange={(e) => this.setState({ footer_company: e.target.value })}/>
+                                    : <p>{this.state.footer_company}</p>
+
+    var footDate = this.state.footDateEditable ? <input type='text'
+                                            defaultValue={this.state.footer_date}
+                                            onChange={(e) => this.setState({ footer_date: e.target.value })}/>
+                                    : <p>{this.state.footer_date}</p>
 
     const popover = {
       position: 'absolute',
@@ -172,15 +204,15 @@ export default class ReportIndex extends React.Component {
 
     return (
       <div>
-        <Header backgroundcolor={this.state.report.header_colour}>
+        <Header backgroundcolor={this.state.header_colour}>
 
-          <h1>{title}</h1>
-          <button onClick={() => this.updateText()}>{this.state.editable ? 'Submit' : 'Edit' }</button>
+          <h1>{headTitle}</h1>
+          <button onClick={() => this.handleEdit("headTitle")}>{this.state.headTitleEditable ? 'Submit' : 'Edit' }</button>
 
           <button onClick={ () => this.handleClick("head") }>Pick Color</button>
           { this.state.displayHeadColorPicker ? <div style={ popover }>
             <div style={ cover } onClick={ () => this.handleClose("head") }/>
-            <ChromePicker color={this.state.report.header_colour} onChangeComplete={ this.updateHeadColour } />
+            <ChromePicker color={this.state.header_colour} onChangeComplete={ this.updateHeadColour } />
           </div> : null }
         </Header>
         <br />
@@ -194,13 +226,26 @@ export default class ReportIndex extends React.Component {
         <br />
         <hr />
         <br />
-        <Footer backgroundcolor={this.state.report.footer_colour}>This is a footer
+        <Footer backgroundcolor={this.state.footer_colour}>
+
+          <h1>{footCompany}</h1>
+          <button onClick={() => this.handleEdit("footCompany")}>{this.state.footCompanyEditable ? 'Submit' : 'Edit' }</button>
+
+          <h1>{footDate}</h1>
+          <button onClick={() => this.handleEdit("footDate")}>{this.state.footDateEditable ? 'Submit' : 'Edit' }</button>
+
           <button onClick={() => this.handleClick("foot") }>Pick Color</button>
           { this.state.displayFootColorPicker ? <div style={ popover }>
             <div style={ cover } onClick={() => this.handleClose("foot") }/>
-            <ChromePicker color={this.state.report.footer_colour} onChangeComplete={ this.updateFootColour } />
+
+            <ChromePicker color={this.state.footer_colour} onChangeComplete={ this.updateFootColour } />
           </div> : null }
+
         </Footer>
+        <br />
+        <br />
+        <hr />
+        <br />
         <br />
         <br />
         <hr />

@@ -1,7 +1,7 @@
 # React on Rails
 
 Followed this tutorial:
--https://github.com/shakacode/react_on_rails/blob/master/docs/tutorial.md
+- https://github.com/shakacode/react_on_rails/blob/master/docs/tutorial.md
 
 Very basic, it even has details on how to deplay to heroku, that'll be good in the future when we get this application fully developed.
 
@@ -49,6 +49,13 @@ A fundamental issue that we had was figuring out how to change the CSS code when
 
 ##ISSUES
 
+### Using an object for state
+
+CONTEXT - From rails `reports/new.html` I send `reportProps` in as props to the `ReportIndex.jsx` component. `reportProps` contains a `report` object inside of which are the attributes of the report object ( `id: nil, title: "This is default title", header_colour: "blue", footer_colour: "red", footer_date: date, footer_company: "This is default company", user_id: user`) which are based off of `reports` from the rails schema. Inside `ReportIndex.jsx` the `report` is used as props to set the default state for the component. The values determine the styling for a default annual report template.
+
+PROBLEM - I'm using `onChange={(e) => this.setState({ report: { footer_company: e.target.value }})}` to change the state of the report object. This is used to change the state of the report object when the value of the input box changes. Whenever, I use the input box to change the state of a particular attribute it changes value of the particular attribute assigned to the input box, but it also changes the value of all the other attributes to `undefined`.
+
+WORK AROUND - change the these to individual state attributes outside the object, instead of inside an object.
 
 ## SOLVED ISSUES
 
