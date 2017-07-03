@@ -14,17 +14,18 @@ export default class Placeholder extends React.Component {
       user: this.props.user,
       report: this.props.report,
       parts: this.props.parts,
+      part: '',
       section: ''
     };
     this.indexSectionShow = this.indexSectionShow.bind(this);
   }
 
-  indexSectionShow(section) {
-    this.updateSection(section);
+  indexSectionShow(section, part) {
+    this.updateSection(section, part);
   };
 
-  updateSection(section) {
-    this.setState({ section: section })
+  updateSection(section, part) {
+    this.setState({ section: section, part: part })
     console.log(section)
   }
 
@@ -40,7 +41,7 @@ export default class Placeholder extends React.Component {
         <div className="display">
           <Display user={this.props.user}
                   report={this.props.report}
-                  parts={this.props.parts}
+                  part={this.state.part}
                   section={this.state.section}/>
         </div>
       </div>

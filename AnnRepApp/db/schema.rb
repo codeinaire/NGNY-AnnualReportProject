@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170622071425) do
+ActiveRecord::Schema.define(version: 20170703003533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,10 +37,10 @@ ActiveRecord::Schema.define(version: 20170622071425) do
 
   create_table "sections", force: :cascade do |t|
     t.string   "title"
-    t.text     "content"
+    t.text     "content",    default: "Example text currently showing. Edit this and input your information"
     t.integer  "part_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                                                                                  null: false
+    t.datetime "updated_at",                                                                                  null: false
     t.index ["part_id"], name: "index_sections_on_part_id", using: :btree
   end
 

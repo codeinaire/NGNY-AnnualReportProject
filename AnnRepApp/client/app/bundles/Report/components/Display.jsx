@@ -11,15 +11,16 @@ export default class Display extends React.Component {
     super(props);
     this.state = {
       user: this.props.user,
-      report: this.props.report,
-      parts: this.props.parts,
+      report: this.props.report
     }
   }
 
   render() {
     return (
       <div>
+        <h2>{this.props.part.title}</h2>
         <h4>{this.props.section.title}</h4>
+        <p>{this.props.section.content}</p>
       </div>
     )
   }

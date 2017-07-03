@@ -44,8 +44,8 @@ export default class Menu extends React.Component {
     });
   }
 
-  passSectionShow(section) {
-    this.props.indexSectionShow(section);
+  passSectionShow(section, part) {
+    this.props.indexSectionShow(section, part);
   }
 
   render() {
