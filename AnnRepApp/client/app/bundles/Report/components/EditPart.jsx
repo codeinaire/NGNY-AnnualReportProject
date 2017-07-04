@@ -105,7 +105,7 @@ export default class Part extends React.Component {
                          part={this.props.part}
                          user={this.state.user}
                          report={this.state.report}
-                         getSections={() => this.getSections()}
+                         getSections={this.props.getSections}
                          sectionUpdate={this.sectionUpdate}/>
               </li>)}
           </ul>
