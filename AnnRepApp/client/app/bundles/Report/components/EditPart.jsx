@@ -24,10 +24,6 @@ export default class Part extends React.Component {
     this.props.getSections();
   }
 
-  // getSections() {
-  //   $.getJSON(`/users/${this.state.user.id}/reports/${this.state.report.id}/sections.json`, (response) => { this.setState({ sections: response }) });
-  // }
-
   handleEdit() {
     if (this.state.editable) {
       var id = this.props.part.id;
@@ -57,10 +53,12 @@ export default class Part extends React.Component {
       type: 'PUT',
       data: { section: section },
       success: () => {
-        this.props.getSections();
+        // this.props.getSections();
+        this.getSections();
       }
     });
   };
+
 
   sectionShow(section, part) {
     this.props.passSectionShow(section, part);

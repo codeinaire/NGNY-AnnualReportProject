@@ -24,8 +24,12 @@ export default class Placeholder extends React.Component {
   }
 
   getSections = () => {
-    $.getJSON(`/users/${this.state.user.id}/reports/${this.state.report.id}/sections.json`, (response) => { this.setState({ sections: response }) });
-  }
+    $.getJSON(`/users/${this.state.user.id}/reports/${this.state.report.id}/sections.json`, (response) => {
+      this.setState({
+        sections: response
+      });
+    });
+  };
 
   indexSectionShow(section, part) {
     this.setState({ section: section, part: part })
