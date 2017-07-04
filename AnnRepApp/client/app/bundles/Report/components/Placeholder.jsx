@@ -53,10 +53,12 @@ export default class Placeholder extends React.Component {
           />
         </div>
         <div className="display">
-          <Content user={this.props.user}
-                  report={this.props.report}
-                  part={this.state.part}
-                  section={this.state.section}/>
+          <Content
+            user={this.props.user}
+            report={this.props.report}
+            part={this.state.part}
+            section={this.state.section}
+          />
         </div>
         <button onClick={this.showState}>Click me for state on placeholder</button>
       </div>

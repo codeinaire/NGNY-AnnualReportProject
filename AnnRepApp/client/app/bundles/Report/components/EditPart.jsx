@@ -55,10 +55,14 @@ export default class Part extends React.Component {
       success: () => {
         // this.props.getSections();
         this.getSections();
+        this.sectionRefresh(section, this.propsPart);
       }
     });
   };
 
+  sectionRefresh(section, part) {
+    this.passSectionShow1(section, part);
+  }
 
   sectionShow(section, part) {
     this.props.passSectionShow(section, part);
@@ -97,21 +101,29 @@ export default class Part extends React.Component {
           <ul>
             {this.props.sections.map((section, i) =>
               section.part_id == this.props.part.id &&
+              // this shows the section in the content
               <li key={i} onClick={() => this.sectionShow(section, this.props.part)}>
                 {/* {console.log("this is section", section)} */}
-                <EditSection section={section}
-                         part={this.props.part}
-                         user={this.state.user}
-                         report={this.state.report}
-                         getSections={this.props.getSections}
-                         sectionUpdate={this.sectionUpdate}/>
+                <EditSection
+                  section={section}
+                  part={this.props.part}
+                  user={this.state.user}
+                  report={this.state.report}
+                  getSections={this.props.getSections}
+                  sectionUpdate={this.sectionUpdate}
+                  propsPart={this.props.part}
+                  sectionRefresh={this.sectionRefresh}
+                  passSectionShow1={this.props.passSectionShow1}
+                />
               </li>)}
           </ul>
         </div>
-        <NewSection part={this.props.part}
-                    user={this.state.user}
-                    report={this.state.report}
-                    getSections={this.props.getSections} />
+        <NewSection
+          part={this.props.part}
+          user={this.state.user}
+          report={this.state.report}
+          getSections={this.props.getSections}
+        />
         <hr />
         <button onClick={this.showState}>Click me for state on Part</button>
       </div>

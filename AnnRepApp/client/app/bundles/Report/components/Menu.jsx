@@ -66,6 +66,7 @@ export default class Menu extends React.Component {
             handleUpdate={this.handleUpdate}
             getParts={() => this.getParts()}
             passSectionShow={this.passSectionShow}
+            passSectionShow1={this.passSectionShow}
             getSections={this.props.getSections}
             sections={this.props.sections}
           />
