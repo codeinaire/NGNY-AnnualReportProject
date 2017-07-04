@@ -1,11 +1,13 @@
 class ReportsController < ApplicationController
   before_action :set_report, only: [:show, :edit, :update, :destroy]
 
+
   # GET /reports
   # GET /reports.json
   def index
     @user = current_user
     @reports = Report.where(:user_id => @user.id)
+    @hello_world_props = { name: "Stranger" }
   end
 
   # GET /reports/1
@@ -18,13 +20,22 @@ class ReportsController < ApplicationController
 
   # GET /reports/new
   def new
-    @user = current_user
+    user = current_user.id
     @report = Report.new
-    puts "report"
+    puts "******* new report"
     puts @report.inspect
-    @report.user_id = current_user.id
-    puts "report with user id"
-    puts @report.inspect
+    date = Time.now.strftime("%d/%m/%Y %H:%M")
+    @reportProps = { report: {
+                        id: nil,
+                        title: "This is default title",
+                        header_colour: "blue",
+                        footer_colour: "red",
+                        footer_date: date,
+                        footer_company: "This is default company",
+                        user_id: user }
+          }
+
+
   end
 
   # GET /reports/1/edit
@@ -39,8 +50,13 @@ class ReportsController < ApplicationController
     @report = Report.new(report_params)
     @report.user_id = @user.id
 
+    puts "****** report create *****"
+    puts @report.inspect
+
     respond_to do |format|
       if @report.save
+        puts "****** report create in if *****"
+        puts @report.inspect
         format.html { redirect_to root_path, notice: 'Report was successfully created.' }
         format.json { render :show, status: :created, location: @report }
       else

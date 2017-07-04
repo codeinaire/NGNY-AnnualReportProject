@@ -1,5 +1,2 @@
 <h1>New Report</h1>
-
-<%= form_for @report, url: user_reports_path(@user) do |f| %>
-  <%= render 'form', f: f %>
-<% end %>
+<%= react_component("ReportIndex", props: @reportProps, prerender: false) %>

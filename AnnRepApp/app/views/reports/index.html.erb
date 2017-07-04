@@ -10,6 +10,7 @@
       <th>Footer colour</th>
       <th>Footer date</th>
       <th>Footer company</th>
+      <th>User ID</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -22,6 +23,7 @@
         <td><%= report.footer_colour %></td>
         <td><%= report.footer_date %></td>
         <td><%= report.footer_company %></td>
+        <td><%= report.user_id %></td>
         <td><%= link_to 'Show', user_report_path(@user, report) %></td>
         <td><%= link_to 'Edit', edit_user_report_path(@user, report) %></td>
         <td><%= link_to 'Destroy', user_report_path(@user, report), method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -33,3 +35,4 @@
 <br>
 
  <%= link_to 'New Report', new_user_report_path(@user) %>
+ <%= react_component("HelloWorld", props: @hello_world_props, prerender: false) %>
