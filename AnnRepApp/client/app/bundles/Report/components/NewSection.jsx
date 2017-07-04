@@ -22,9 +22,9 @@ export default class NewSection extends React.Component {
     let title = this.state.title;
 
      $.ajax({
-       url: `/users/${this.state.user.id}/reports/${this.state.report.id}/sections`,
+       url: `/users/${this.props.user.id}/reports/${this.props.report.id}/sections`,
        type: 'POST',
-       data: { section: { title: title, part_id: this.state.part.id } },
+       data: { section: { title: title, part_id: this.props.part.id } },
        success: (response) => {
          console.log('Section saved', response);
          this.props.getSections();

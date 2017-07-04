@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Section from '../components/Section';
+import EditSection from '../components/EditSection';
 import NewSection from '../components/NewSection';
 
 export default class Part extends React.Component {
@@ -16,7 +16,7 @@ export default class Part extends React.Component {
       title: '',
       user: this.props.user,
       report: this.props.report,
-      sections: []
+      sections: this.props.sections
     }
   };
 
@@ -49,6 +49,7 @@ export default class Part extends React.Component {
     });
   }
 
+  // arguments coming from section component
   sectionUpdate(section, user, report) {
     console.log(section);
     $.ajax({
@@ -99,8 +100,8 @@ export default class Part extends React.Component {
             {this.props.sections.map((section, i) =>
               section.part_id == this.props.part.id &&
               <li key={i} onClick={() => this.sectionShow(section, this.props.part)}>
-                {console.log("this is section", section)}
-                <Section section={section}
+                {/* {console.log("this is section", section)} */}
+                <EditSection section={section}
                          part={this.props.part}
                          user={this.state.user}
                          report={this.state.report}
@@ -112,7 +113,7 @@ export default class Part extends React.Component {
         <NewSection part={this.props.part}
                     user={this.state.user}
                     report={this.state.report}
-                    getSections={() => this.getSections()} />
+                    getSections={this.props.getSections} />
         <hr />
         <button onClick={this.showState}>Click me for state on Part</button>
       </div>

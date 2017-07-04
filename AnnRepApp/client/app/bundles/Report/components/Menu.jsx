@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Part from '../components/Part';
+import EditPart from '../components/EditPart';
 import NewPart from '../components/NewPart';
 
 export default class Menu extends React.Component {
@@ -59,7 +59,7 @@ export default class Menu extends React.Component {
         <h1>Menu</h1>
         {this.state.parts.map((part, i) =>
         <div key={i}>
-          <Part
+          <EditPart
             part={part}
             user={this.state.user}
             report={this.state.report}

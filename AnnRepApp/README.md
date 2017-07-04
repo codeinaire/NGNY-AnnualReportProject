@@ -12,9 +12,9 @@ Placeholder[user, report, parts, part, section]
 |       |
 |       |---- NewPart[editable, title, user, report] - user, report, getParts.
 |       |
-|       |---- Part[editable, title, user, report, sections]- part, user, report, handleUpdate, getParts, passSectionShow --^-- section, part
+|       |---- EditPart[editable, title, user, report, sections]- part, user, report, handleUpdate, getParts, passSectionShow --^-- section, part
 |              |
-|              |---- Section[editable, title, user, report, part, section] - section, part, user, report, getSections, sectionUpdate --^-- section.id, title
+|              |---- EditSection[editable, title, user, report, part, section] - section, part, user, report, getSections, sectionUpdate --^-- section.id, title
 |              |
 |              |---- NewSection[editable, title, user, report, part] - part, user, report, getSections
 |

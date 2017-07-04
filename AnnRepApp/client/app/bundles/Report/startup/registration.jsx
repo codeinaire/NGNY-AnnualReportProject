@@ -4,13 +4,13 @@ import HelloWorld from '../components/HelloWorld';
 
 import Menu from '../components/Menu';
 
-import Part from '../components/Part';
+import EditPart from '../components/EditPart';
 
 import NewPart from '../components/NewPart';
 
-import Display from '../components/Display';
+import Content from '../components/Content';
 
-import Section from '../components/Section';
+import EditSection from '../components/EditSection';
 
 import NewSection from '../components/NewSection';
 
@@ -19,11 +19,11 @@ import Placeholder from '../components/Placeholder';
 // This is how react_on_rails can see the HelloWorld in the browser.
 ReactOnRails.register({
   HelloWorld,
+  Placeholder,
   Menu,
-  Part,
   NewPart,
-  Display,
-  Section,
+  EditPart,
+  EditSection,
   NewSection,
-  Placeholder
+  Content
 });

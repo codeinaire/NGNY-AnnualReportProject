@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Menu from '../components/Menu';
-import Display from '../components/Display';
+import Content from '../components/Content';
 
 // this will probably be the ReportIndex page
 
@@ -49,7 +49,7 @@ export default class Placeholder extends React.Component {
           />
         </div>
         <div className="display">
-          <Display user={this.props.user}
+          <Content user={this.props.user}
                   report={this.props.report}
                   part={this.state.part}
                   section={this.state.section}/>
