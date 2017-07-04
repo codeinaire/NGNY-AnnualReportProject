@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   root 'reports#index'
+  # match "/users/:id/reports", :to => "reports#index", via :get
 
   resources :users do
     resources :reports

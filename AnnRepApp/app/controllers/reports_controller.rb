@@ -14,8 +14,8 @@ class ReportsController < ApplicationController
   # GET /reports/1.json
   def show
     @user = current_user
-    puts "report"
-    puts @report.inspect
+    @parts = Part.where(:report_id => @report.id)
+    @menuProps = { user: @user, report: @report, parts: @parts}
   end
 
   # GET /reports/new

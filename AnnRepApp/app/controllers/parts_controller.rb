@@ -4,7 +4,8 @@ class PartsController < ApplicationController
   # GET /parts
   # GET /parts.json
   def index
-    @parts = Part.all
+    @report = Report.find(params[:report_id])
+    @parts = Part.where(:report_id => @report.id)
   end
 
   # GET /parts/1
@@ -25,10 +26,12 @@ class PartsController < ApplicationController
   # POST /parts.json
   def create
     @part = Part.new(part_params)
+    @report = Report.find(params[:report_id])
+    @part.report_id = @report.id
 
     respond_to do |format|
       if @part.save
-        format.html { redirect_to @part, notice: 'Part was successfully created.' }
+        format.html
         format.json { render :show, status: :created, location: @part }
       else
         format.html { render :new }
@@ -42,7 +45,7 @@ class PartsController < ApplicationController
   def update
     respond_to do |format|
       if @part.update(part_params)
-        format.html { redirect_to @part, notice: 'Part was successfully updated.' }
+        format.html
         format.json { render :show, status: :ok, location: @part }
       else
         format.html { render :edit }
@@ -56,7 +59,7 @@ class PartsController < ApplicationController
   def destroy
     @part.destroy
     respond_to do |format|
-      format.html { redirect_to parts_url, notice: 'Part was successfully destroyed.' }
+      format.html
       format.json { head :no_content }
     end
   end
