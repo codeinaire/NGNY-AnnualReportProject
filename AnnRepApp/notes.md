@@ -7,3 +7,10 @@ CONTEXT - `Menu` is a parent component to `EditPart` and `NewPart` while `EditPa
 PROBLEM - When the user edits either Part or Section title the title inside `Menu` component updates straight away. However, the title in `Content` doesn't update at the same time.
 
 DETAILS - `Placeholder` contains the state that changes the Part and Section title for `Content`. This doesn't change when the user edits the title in `EditSection` or `EditPart`. However, when the user clicks on the title of either the Part or the Section it will update the both the Part and Section title. This seems to update the state in `Placeholder`
+## DEVISE
+
+This is what's in the devise model.
+
+```
+User(id: integer, email: string, encrypted_password: string, reset_password_token: string, reset_password_sent_at: datetime, remember_created_at: datetime, sign_in_count: integer, current_sign_in_at: datetime, last_sign_in_at: datetime, current_sign_in_ip: inet, last_sign_in_ip: inet, created_at: datetime, updated_at: datetime)
+```
